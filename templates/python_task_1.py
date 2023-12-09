@@ -12,22 +12,17 @@ def generate_car_matrix(df)->pd.DataFrame:
         pandas.DataFrame: Matrix generated with 'car' values, 
                           where 'id_1' and 'id_2' are used as indices and columns respectively.
     """
-    # Write your logic here
+    df =df.pivote(index='id_1',column='id_2',values ='car').fillna(0)
+     df.values[[range(len(df))]*2]=0
+
 
     return df
 
 
 def get_type_count(df)->dict:
-    """
-    Categorizes 'car' values into types and returns a dictionary of counts.
-
-    Args:
-        df (pandas.DataFrame)
-
-    Returns:
-        dict: A dictionary with car types as keys and their counts as values.
-    """
-    # Write your logic here
+    df['car_type'] =pd.cut(df['car'], bins=[float('-inf'),15,25,float('inf')], labels=['Low','Medium','High'],right=False)
+    car_type_counts=df['car_type'].values_counts().to_dict()
+    sorted_car_type_counts= dict(sorted(car_type_counts.items()))
 
     return dict()
 
